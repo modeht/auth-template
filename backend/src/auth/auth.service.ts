@@ -49,10 +49,9 @@ export class AuthService {
 		}
 
 		const tokens = await this.createAuthTokens(existingUser);
-		const userSecured = await this.usersService.findById(existingUser._id.toString(), { hidePassword: true });
 
 		return {
-			user: userSecured,
+\			user: await this.usersService.findById(existingUser._id.toString(), { hidePassword: true }),
 			...tokens,
 		};
 	}
