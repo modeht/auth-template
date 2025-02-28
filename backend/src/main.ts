@@ -55,7 +55,7 @@ async function bootstrap() {
 	SwaggerModule.setup('docs', app, document);
 
 	const configService = app.get(ConfigService);
-	const PORT = configService.get('PORT');
+	const PORT = configService.get('BACKEND_PORT');
 
 	await app.listen(PORT, '0.0.0.0', () => {
 		console.log('API server listening on http://localhost:' + PORT);
