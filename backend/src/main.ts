@@ -55,7 +55,7 @@ async function bootstrap() {
 	app.setGlobalPrefix('api');
 
 	const config = new DocumentBuilder()
-		.setTitle('Easygenerator Auths')
+		.setTitle('Easygenerator API')
 		.addBearerAuth()
 		.setVersion('0.1.0')
 		.setExternalDoc('Postman Collection', '/api-json')
