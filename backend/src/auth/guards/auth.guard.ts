@@ -32,7 +32,6 @@ export class AuthGuard implements CanActivate {
 			request.session = payload;
 			this.authContext.setUser(request.session);
 		} catch (error: any) {
-			console.error('Bad token', token[1]);
 			throw new BadRequestException('Token malformed');
 		}
 		const user = await this.usersService.findById(request.session.sub);
