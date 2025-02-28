@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { VersioningType } from '@nestjs/common';
+import { BadRequestException, ValidationPipe, VersioningType } from '@nestjs/common';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { join } from 'path';
 import helmet from 'helmet';
@@ -34,6 +34,16 @@ async function bootstrap() {
 		prefix: '/assets/',
 	});
 
+	app.useGlobalPipes(
+		new ValidationPipe({
+			whitelist: true,
+			transform: true,
+			stopAtFirstError: true,
+			exceptionFactory(errors) {
+				return new BadRequestException(Object.values(errors[0].constraints).join(', '));
+			},
+		}),
+	);
 	app.useGlobalFilters(new GeneralExceptionFilter(app.get(I18nService)));
 
 	app.enableVersioning({
@@ -48,14 +58,14 @@ async function bootstrap() {
 		.setTitle('Easygenerator Auths')
 		.addBearerAuth()
 		.setVersion('0.1.0')
-		.setExternalDoc('Postman Collection', '/docs-json')
+		.setExternalDoc('Postman Collection', '/api-json')
 		.build();
 
-	const document = SwaggerModule.createDocument(app, config);
-	SwaggerModule.setup('docs', app, document);
+	const documentFactory = () => SwaggerModule.createDocument(app, config);
+	SwaggerModule.setup('api', app, documentFactory);
 
 	const configService = app.get(ConfigService);
-	const PORT = configService.get('BACKEND_PORT');
+	const PORT = configService.getOrThrow('BACKEND_PORT');
 
 	await app.listen(PORT, '0.0.0.0', () => {
 		console.log('API server listening on http://localhost:' + PORT);

@@ -102,6 +102,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
 	const d = useLang();
+	// This is a test comment to verify hot reloading is working
+	console.log('Testing hot reloading!');
 	return (
 		<LanguageContext.Provider value={d}>
 			<Outlet />

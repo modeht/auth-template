@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DbModule } from './db/db.module';
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from 'nestjs-i18n';
 import { join } from 'path';
 import { LanguageEnum } from '../lib/enums';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthContextModule } from './auth/auth.context';
 
 @Module({
 	imports: [
@@ -30,10 +33,23 @@ import { LanguageEnum } from '../lib/enums';
 			],
 		}),
 		ConfigModule.forRoot({
-			envFilePath: ['.env.dev.local', '.env'],
+			envFilePath: ['.env.local', '.env'],
 			isGlobal: true,
 		}),
+		JwtModule.registerAsync({
+			global: true,
+			useFactory: (configService: ConfigService) => ({
+				secret: configService.getOrThrow('JWT_SECRET'),
+				signOptions: {
+					algorithm: 'HS256',
+					issuer: 'easygenerator',
+				},
+			}),
+			inject: [ConfigService],
+		}),
 		DbModule,
+		AuthModule,
+		AuthContextModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

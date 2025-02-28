@@ -1,5 +1,7 @@
-// fastify module augmentation
-// declare module 'fastify' {
-//   interface FastifyRequest {}
-//   interface FastifyReply {}
-// }
+import { SessionToken } from './auth/types/auth.type';
+
+declare module 'fastify' {
+	interface FastifyRequest {
+		session: SessionToken;
+	}
+}
