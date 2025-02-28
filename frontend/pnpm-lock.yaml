@@ -29,6 +29,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       isbot:
         specifier: ^5.1.17
         version: 5.1.19
@@ -69,9 +72,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.49)
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
       postcss:
         specifier: ^8.4.49
         version: 8.4.49

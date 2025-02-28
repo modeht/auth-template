@@ -1,0 +1,43 @@
+services:
+  mongodb:
+    image: mongo:8
+    env_file: ./backend/.env
+    restart: unless-stopped
+    ports:
+      - 27019:${MONGO_PORT}
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - service-network
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+
+  api:
+    depends_on:
+      - mongodb
+    build: ./backend
+    restart: unless-stopped
+    env_file: ./backend/.env
+    ports:
+      - 3001:${PORT}
+    networks:
+      - service-network
+
+  frontend:
+    depends_on:
+      - api
+    build: ./frontend
+    restart: unless-stopped
+    networks:
+      - service-network
+    env_file: ./frontend/.env
+    ports:
+      - 3000:${FRONTEND_PORT}
+
+networks:
+  service-network:
+
+volumes:
+  mongodb_data:

@@ -80,7 +80,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<html
 			lang={lang}
-			dir={lang === 'ar' ? 'rtl' : 'ltr'}
+			dir={'ltr'}
 		>
 			<head>
 				<meta charSet='utf-8' />
