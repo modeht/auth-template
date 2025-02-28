@@ -3,15 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { FastifyRequest } from 'fastify';
 import { SessionToken } from '../types/auth.type';
-import { UserService } from '../user.service';
 import { AuthContext } from '../auth.context';
-
+import { UsersService } from '../../users/users.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
 	constructor(
 		private jwtService: JwtService,
 		private configService: ConfigService,
-		private userService: UserService,
+		private usersService: UsersService,
 		private authContext: AuthContext,
 	) {}
 
@@ -36,7 +35,7 @@ export class AuthGuard implements CanActivate {
 			console.error('Bad token', token[1]);
 			throw new BadRequestException('Token malformed');
 		}
-		const user = await this.userService.findById(request.session.sub);
+		const user = await this.usersService.findById(request.session.sub);
 		if (!user) {
 			throw new ForbiddenException('Invalid user');
 		}

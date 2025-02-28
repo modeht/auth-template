@@ -1,4 +1,4 @@
-import { type UserDocument } from '../schemas/user.schema';
+import { type UserDocument } from '../../users/schemas/user.schema';
 
 export type RegisterResponse = {
 	user: UserDocument;

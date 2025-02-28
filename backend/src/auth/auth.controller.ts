@@ -3,18 +3,18 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dtos/register.dto';
 import { RegisterResponse } from './types/auth.type';
 import { LoginDto } from './dtos/login.dto';
-import { UserDocument } from './schemas/user.schema';
 import { AuthContext } from './auth.context';
-import { UserService } from './user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { UserDocument } from '../users/schemas/user.schema';
+import { UsersService } from '../users/users.service';
 
 @Controller('auth')
 export class AuthController {
 	constructor(
 		private readonly authService: AuthService,
 		private readonly authContext: AuthContext,
-		private readonly userService: UserService,
+		private readonly usersService: UsersService,
 	) {}
 
 	@Post('register')
@@ -31,6 +31,6 @@ export class AuthController {
 	@ApiBearerAuth()
 	@UseGuards(AuthGuard)
 	async me(): Promise<UserDocument> {
-		return this.userService.findById(this.authContext.getUser().sub, { hidePassword: true });
+		return this.usersService.findById(this.authContext.getUser().sub, { hidePassword: true });
 	}
 }

@@ -9,6 +9,7 @@ import { LanguageEnum } from '../lib/enums';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthContextModule } from './auth/auth.context';
+import { UsersModule } from './users/users.module';
 
 @Module({
 	imports: [
@@ -48,6 +49,7 @@ import { AuthContextModule } from './auth/auth.context';
 			inject: [ConfigService],
 		}),
 		DbModule,
+		UsersModule,
 		AuthModule,
 		AuthContextModule,
 	],
