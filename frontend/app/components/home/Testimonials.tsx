@@ -54,10 +54,10 @@ export const Testimonials = () => {
 					<motion.button
 						key={index}
 						title={`Testimonial ${index + 1}`}
-						className='size-2 bg-cgray-100 rounded-full'
+						className='size-2 bg-cgray-200 rounded-full'
 						whileHover={{ scale: 1.5 }}
 						whileTap={{ scale: 0.9 }}
-						animate={{ opacity: activeTestimonial === index ? 0.5 : 1 }}
+						animate={{ opacity: activeTestimonial === index ? 1 : 0.5 }}
 						onClick={(e) => {
 							e.stopPropagation();
 							setActiveTestimonial(index);

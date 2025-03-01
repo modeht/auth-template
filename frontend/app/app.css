@@ -16,6 +16,23 @@ body {
 	font-family: 'Poppins', sans-serif;
 }
 
+input::placeholder {
+	color: #68667760;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+/*Change text in autofill textbox*/
+input:-webkit-autofill {
+	-webkit-text-fill-color: #49475a;
+	font-family: 'Poppins', sans-serif;
+}
+
 @layer base {
 	:root {
 		--background: 0 0% 100%;

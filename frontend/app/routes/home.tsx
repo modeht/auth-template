@@ -26,7 +26,8 @@ export default function Home() {
 		password: '',
 	});
 
-	const toggleMode = () => {
+	const toggleMode = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		e.preventDefault();
 		const newMode = activeMode === 'login' ? 'signup' : 'login';
 		setSearchParams({ mode: newMode });
 		setIsExpanded(!isExpanded);
@@ -56,6 +57,13 @@ export default function Home() {
 		const mode = searchParams.get('mode');
 		if (mode !== 'login' && mode !== 'signup') {
 			setSearchParams({ mode: 'signup' });
+			setIsExpanded(false);
+		}
+
+		if (mode === 'login') {
+			setIsExpanded(true);
+		} else if (mode === 'signup') {
+			setIsExpanded(false);
 		}
 	}, [searchParams, setSearchParams]);
 
