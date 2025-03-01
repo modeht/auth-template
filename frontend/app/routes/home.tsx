@@ -10,6 +10,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const activeMode = searchParams.get('mode') || 'signup';
+	const [isExpanded, setIsExpanded] = useState(false);
 
 	// Form data states
 	const [loginData, setLoginData] = useState({
@@ -48,6 +49,10 @@ export default function Home() {
 	const handleSignupSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log('Signup submitted:', { ...signupData, skills: selectedSkills });
+	};
+
+	const toggleExpand = () => {
+		setIsExpanded(!isExpanded);
 	};
 
 	useEffect(() => {
@@ -90,8 +95,20 @@ export default function Home() {
 
 	return (
 		<div className='min-h-screen h-screen w-full flex overflow-hidden bg-white font-sans'>
-			<div className='max-w-8xl w-full mx-auto p-[14px]'>
-				<div className='bg-cpurple-700 rounded-[10px] hidden xl:block px-[64px] py-[54px] xl:w-[608px] h-full'>
+			{/* Company Section */}
+			<div className='max-w-8xl w-full mx-auto p-[14px] flex justify-start'>
+				<motion.div
+					className='bg-cpurple-700 rounded-[10px] hidden xl:block px-[64px] py-[54px] xl:w-[608px] h-full cursor-pointer'
+					animate={{
+						x: isExpanded ? 'calc(1440px - 608px - 28px)' : 0,
+					}}
+					transition={{
+						type: 'spring',
+						stiffness: 300,
+						damping: 30,
+					}}
+					onClick={toggleExpand}
+				>
 					<div className='flex flex-col h-full'>
 						<div className='flex items-center gap-2'>
 							<h1 className='text-white text-xl font-semibold'>
@@ -109,18 +126,18 @@ export default function Home() {
 
 						{/* Testimonials Section */}
 						<div className='mt-auto flex flex-col gap-y-4'>
-							<div className='flex flex-col flex-nowrap overflow-hidden relative h-[220px]'>
+							<div className='flex flex-col flex-nowrap overflow-hidden relative h-[240px]'>
 								{testimonials.map((testimonial, index) => (
 									<motion.div
 										key={index}
 										className='flex flex-col gap-y-4 bg-cpurple-800/60 p-6 rounded-xl absolute w-full'
-										initial={{ opacity: 0, x: 50 }}
+										initial={{ opacity: 0, x: 80 }}
 										animate={{
+											x: activeTestimonial === index ? 0 : 80,
 											opacity: activeTestimonial === index ? 1 : 0,
-											x: activeTestimonial === index ? 0 : 50,
 											display: activeTestimonial === index ? 'flex' : 'none',
 										}}
-										transition={{ duration: 0.4 }}
+										transition={{ duration: 0.6 }}
 									>
 										<p className='text-cgray-100/80 text-lg font-normal'>{testimonial.description}</p>
 										<div className='flex items-center gap-x-4'>
@@ -151,13 +168,16 @@ export default function Home() {
 										whileHover={{ scale: 1.5 }}
 										whileTap={{ scale: 0.9 }}
 										animate={{ opacity: activeTestimonial === index ? 0.5 : 1 }}
-										onClick={() => setActiveTestimonial(index)}
+										onClick={(e) => {
+											e.stopPropagation();
+											setActiveTestimonial(index);
+										}}
 									/>
 								))}
 							</div>
 						</div>
 					</div>
-				</div>
+				</motion.div>
 			</div>
 		</div>
 	);
