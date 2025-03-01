@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router';
 import { CompanySection } from '../components/home/CompanySection';
 import { AuthForm } from '../components/home/AuthForm';
 import { motion } from 'motion/react';
+import { api, apiErrorHandler, setAuthToken } from '../lib/axios';
 
 export function meta({}: Route.MetaArgs) {
 	return [{ title: 'Easygenerator Auth' }, { name: 'description', content: 'Easygenerator Auth' }];
@@ -43,14 +44,40 @@ export default function Home() {
 		setSignupData((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const handleLoginSubmit = (e: React.FormEvent) => {
+	const handleLoginSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log('Login submitted:', loginData);
+		try {
+			const r = await api.post('api/v1/auth/login', {
+				email: loginData.email,
+				password: loginData.password,
+			});
+			setAuthToken(r.data.accessToken);
+			setLoginData({
+				email: '',
+				password: '',
+			});
+		} catch (error) {
+			apiErrorHandler(error);
+		}
 	};
 
-	const handleSignupSubmit = (e: React.FormEvent) => {
+	const handleSignupSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log('Signup submitted:', { ...signupData });
+		try {
+			const r = await api.post('api/v1/auth/register', {
+				name: signupData.name,
+				email: signupData.email,
+				password: signupData.password,
+			});
+			setAuthToken(r.data.accessToken);
+			setSignupData({
+				name: '',
+				email: '',
+				password: '',
+			});
+		} catch (error) {
+			apiErrorHandler(error);
+		}
 	};
 
 	useEffect(() => {
@@ -69,11 +96,9 @@ export default function Home() {
 
 	return (
 		<div className='min-h-screen h-screen w-full flex overflow-hidden bg-white font-sans'>
-			{/* Company Section */}
 			<div className='max-w-8xl w-full mx-auto p-[14px] flex justify-between'>
 				<CompanySection isExpanded={isExpanded} />
 
-				{/* Auth Form Section */}
 				<AuthForm
 					isExpanded={isExpanded}
 					activeMode={activeMode}
