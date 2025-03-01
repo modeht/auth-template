@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthContextModule } from './auth/auth.context';
 import { UsersModule } from './users/users.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
 	imports: [
@@ -48,13 +50,27 @@ import { UsersModule } from './users/users.module';
 			}),
 			inject: [ConfigService],
 		}),
+		ThrottlerModule.forRoot([
+			{
+				name: 'default',
+				ttl: 1000,
+				limit: 100,
+				// 100 requests per 1 second as a default
+			},
+		]),
 		DbModule,
 		UsersModule,
 		AuthModule,
 		AuthContextModule,
 	],
 	controllers: [AppController],
-	providers: [AppService],
+	providers: [
+		AppService,
+		{
+			provide: APP_GUARD,
+			useClass: ThrottlerGuard,
+		},
+	],
 	exports: [],
 })
 export class AppModule {}

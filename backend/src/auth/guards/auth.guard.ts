@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
 	async canActivate(ctx: ExecutionContext) {
 		const request = ctx.switchToHttp().getRequest<FastifyRequest>();
 		const token = request.headers?.authorization?.split(' ') || [];
-		console.log('token', token);
+
 		if (token[0]?.toLocaleLowerCase() !== 'bearer') {
 			throw new BadRequestException('Bearer token malformed');
 		}
@@ -34,10 +34,12 @@ export class AuthGuard implements CanActivate {
 		} catch (error: any) {
 			throw new BadRequestException('Token malformed');
 		}
+
 		const user = await this.usersService.findById(request.session.sub);
 		if (!user) {
 			throw new ForbiddenException('Invalid user');
 		}
+
 		return true;
 	}
 }
