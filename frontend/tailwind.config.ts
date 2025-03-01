@@ -4,10 +4,13 @@ export default {
 	darkMode: ['class'],
 	content: ['./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}'],
 	theme: {
+		fontFamily: {
+			sans: ['Poppins', 'sans-serif'],
+		},
 		extend: {
 			fontFamily: {
 				sans: [
-					'Inter"',
+					'Poppins',
 					'ui-sans-serif',
 					'system-ui',
 					'sans-serif',
@@ -22,7 +25,38 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)',
 			},
+			maxWidth: {
+				'8xl': '1440px',
+			},
 			colors: {
+				cblack: '#040405',
+				cgray: {
+					25: '#FCFCFC',
+					50: '#F6F6F8',
+					100: '#F0F0F3',
+					200: '#E2E1E8',
+					300: '#CBCAD7',
+					400: '#9794AA',
+					500: '#686677',
+					600: '#49475A',
+					700: '#313039',
+					800: '#19181F',
+					900: '#100F14',
+				},
+				cpurple: {
+					25: '#FAFAFF',
+					50: '#F4F3FF',
+					100: '#EBE9FE',
+					200: '#D9D6FE',
+					300: '#BDB4FE',
+					400: '#9B8AFB',
+					500: '#7A5AF8',
+					600: '#6938EF',
+					700: '#5925DC',
+					800: '#4A1FB8',
+					900: '#3E1C96',
+				},
+
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				card: {
