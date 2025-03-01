@@ -10,7 +10,7 @@
 		"frontend:dev": "cd frontend && pnpm dev",
 		"dev": "concurrently \"pnpm backend:dev\" \"pnpm frontend:dev\"",
 		"test": "cd backend && pnpm test -- auth",
-		"deps:install": "cd backend && pnpm install && cd ../frontend && pnpm install"
+		"deps:install": "pnpm install && cd backend && pnpm install && cd ../frontend && pnpm install"
 	},
 	"dependencies": {
 		"concurrently": "^9.1.2"
