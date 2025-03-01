@@ -1,6 +1,6 @@
 FROM node:22-alpine
 
-RUN npm i -g pnpm
+RUN npm i -g pnpm@9
 RUN npm i -g @nestjs/cli
 
 WORKDIR /app

@@ -1,5 +1,5 @@
 FROM node:22-alpine AS dependencies-env
-RUN npm i -g pnpm
+RUN npm i -g pnpm@9
 COPY . /app
 
 FROM dependencies-env AS development-dependencies-env
