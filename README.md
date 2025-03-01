@@ -49,15 +49,13 @@ DB will be available at `mongodb://username:password@localhost:27019/database`
 
 - Clone the repository
 
-- Run `pnpm install`
+- Run `pnpm deps:install`
 
 - Create a `.env` file in the root of the project and copy the content of `.env.example`
 
 - Create a `.env` file in the backend folder and copy the content of `.env.example` in the backend folder
 
 - Go Back to the root of the project
-
-- Run `pnpm deps:install`
 
 - For development run `pnpm dev`
 
