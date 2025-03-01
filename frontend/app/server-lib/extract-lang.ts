@@ -1,8 +1,8 @@
 import { DEFAULT_LANG, supportedLanguages, type SupportedLanguages } from '../i18n/supported';
-import ar from '../i18n/ar.json';
 import en from '../i18n/en.json';
+import { redirect } from 'react-router';
 
-const langs = { ar, en };
+const langs = { en };
 
 export function extractLang(request: Request | Location) {
 	if (request instanceof Request) {
@@ -11,6 +11,15 @@ export function extractLang(request: Request | Location) {
 			const t = langs[lang];
 			return { lang: lang, t };
 		} else {
+			//starts with a lang
+			const isLang = lang.length === 2;
+			if (!isLang) {
+				return {
+					lang: DEFAULT_LANG,
+					t: langs[DEFAULT_LANG],
+					redirect: `/${DEFAULT_LANG}/${new URL(request.url).pathname.slice(2)}`,
+				};
+			}
 			throw new Response('Page not found', {
 				status: 404,
 			});
@@ -21,11 +30,21 @@ export function extractLang(request: Request | Location) {
 			const t = langs[lang];
 			return { lang: lang, t };
 		} else {
+			//starts with a lang
+			const isLang = lang.length === 2;
+			if (!isLang) {
+				return {
+					lang: DEFAULT_LANG,
+					t: langs[DEFAULT_LANG],
+					redirect: `/${DEFAULT_LANG}/${request.pathname.slice(2)}`,
+				};
+			}
+
 			throw new Response('Page not found', {
 				status: 404,
 			});
 		}
 	}
 
-	return { lang: DEFAULT_LANG, t: langs[DEFAULT_LANG], redirect: true };
+	return { lang: DEFAULT_LANG, t: langs[DEFAULT_LANG], redirect: undefined };
 }

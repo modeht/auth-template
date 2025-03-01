@@ -8,6 +8,7 @@ import {
 	Scripts,
 	ScrollRestoration,
 	useLoaderData,
+	useNavigate,
 } from 'react-router';
 import type { Route } from './+types/root';
 import stylesheet from './app.css?url';
@@ -42,7 +43,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 	const { lang, t, redirect: redirectToDefaultLang } = extractLang(request);
 
 	if (redirectToDefaultLang) {
-		return redirect(`/${DEFAULT_LANG}`);
+		return redirect(redirectToDefaultLang);
 	}
 
 	const cookies = getCookies(request);
@@ -114,6 +115,7 @@ export default function App() {
 export function ErrorBoundary(errorBoundary: Route.ErrorBoundaryProps) {
 	const { error } = errorBoundary;
 	console.log('ErrorBoundary', errorBoundary);
+	const navigate = useNavigate();
 	let message = 'Oops!';
 	let details = 'An unexpected error occurred.';
 	let stack: string | undefined;
@@ -135,6 +137,15 @@ export function ErrorBoundary(errorBoundary: Route.ErrorBoundaryProps) {
 					<code>{stack}</code>
 				</pre>
 			)}
+
+			<button
+				className='bg-cpurple-500 text-white px-4 py-2 rounded-md mt-4'
+				onClick={() => {
+					navigate('/');
+				}}
+			>
+				Go to home
+			</button>
 		</main>
 	);
 }

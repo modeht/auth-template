@@ -16,17 +16,20 @@ export function meta({}: Route.MetaArgs) {
 export async function loader({ request }: Route.LoaderArgs) {
 	const cookies = getCookies(request);
 	const { lang, t, redirect: redirectToDefaultLang } = extractLang(request);
+
+	if (redirectToDefaultLang) {
+		return redirect(redirectToDefaultLang);
+	}
+
 	const auth_t = getAuthToken(cookies);
 	const user = auth_t ? await getUser(auth_t) : undefined;
 
 	if (user) {
 		return {
 			user,
+			lang,
+			t,
 		};
-	}
-
-	if (redirectToDefaultLang) {
-		return redirect(`/${DEFAULT_LANG}/auth?mode=signup`);
 	}
 
 	return redirect(`/${lang}/auth?mode=signup`);
