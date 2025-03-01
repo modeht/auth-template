@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
 import { motion } from 'motion/react';
@@ -34,41 +33,54 @@ export const AuthForm = ({
 	handleSignupSubmit,
 }: AuthFormProps) => {
 	return (
-		<div className='w-full max-w-md'>
-			<div className='flex justify-center mb-6'>
-				<div className='bg-gray-100 p-1 rounded-lg inline-flex'>
-					<button
-						className={`px-4 py-2 rounded-md ${
-							activeMode === 'login' ? 'bg-white shadow-sm' : 'text-gray-600 hover:bg-gray-200'
-						}`}
-						onClick={activeMode === 'signup' ? toggleMode : undefined}
-					>
-						Login
-					</button>
-					<button
-						className={`px-4 py-2 rounded-md ${
-							activeMode === 'signup' ? 'bg-white shadow-sm' : 'text-gray-600 hover:bg-gray-200'
-						}`}
-						onClick={activeMode === 'login' ? toggleMode : undefined}
-					>
-						Sign Up
-					</button>
+		<motion.div
+			className='flex-1 flex items-center z-10'
+			animate={{
+				x: isExpanded ? 'calc(-1440px + 832px)' : 0,
+				justifyContent: isExpanded ? 'flex-start' : 'flex-end',
+			}}
+			transition={{
+				type: 'spring',
+				stiffness: 300,
+				damping: 30,
+			}}
+		>
+			<div className='w-full max-w-md'>
+				<div className='flex justify-center mb-6'>
+					<div className='bg-gray-100 p-1 rounded-lg inline-flex'>
+						<button
+							className={`px-4 py-2 rounded-md ${
+								activeMode === 'login' ? 'bg-white shadow-sm' : 'text-gray-600 hover:bg-gray-200'
+							}`}
+							onClick={activeMode === 'signup' ? toggleMode : undefined}
+						>
+							Login
+						</button>
+						<button
+							className={`px-4 py-2 rounded-md ${
+								activeMode === 'signup' ? 'bg-white shadow-sm' : 'text-gray-600 hover:bg-gray-200'
+							}`}
+							onClick={activeMode === 'login' ? toggleMode : undefined}
+						>
+							Sign Up
+						</button>
+					</div>
 				</div>
-			</div>
 
-			{activeMode === 'login' ? (
-				<LoginForm
-					formData={loginData}
-					onChange={handleLoginChange}
-					onSubmit={handleLoginSubmit}
-				/>
-			) : (
-				<SignupForm
-					formData={signupData}
-					onChange={handleSignupChange}
-					onSubmit={handleSignupSubmit}
-				/>
-			)}
-		</div>
+				{activeMode === 'login' ? (
+					<LoginForm
+						formData={loginData}
+						onChange={handleLoginChange}
+						onSubmit={handleLoginSubmit}
+					/>
+				) : (
+					<SignupForm
+						formData={signupData}
+						onChange={handleSignupChange}
+						onSubmit={handleSignupSubmit}
+					/>
+				)}
+			</div>
+		</motion.div>
 	);
 };

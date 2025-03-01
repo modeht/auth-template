@@ -66,30 +66,17 @@ export default function Home() {
 				<CompanySection isExpanded={isExpanded} />
 
 				{/* Auth Form Section */}
-				<motion.div
-					className='flex-1 flex items-center z-10'
-					animate={{
-						x: isExpanded ? 'calc(-1440px + 832px)' : 0,
-						justifyContent: isExpanded ? 'flex-start' : 'flex-end',
-					}}
-					transition={{
-						type: 'spring',
-						stiffness: 300,
-						damping: 30,
-					}}
-				>
-					<AuthForm
-						isExpanded={isExpanded}
-						activeMode={activeMode}
-						toggleMode={toggleMode}
-						loginData={loginData}
-						signupData={signupData}
-						handleLoginChange={handleLoginChange}
-						handleSignupChange={handleSignupChange}
-						handleLoginSubmit={handleLoginSubmit}
-						handleSignupSubmit={handleSignupSubmit}
-					/>
-				</motion.div>
+				<AuthForm
+					isExpanded={isExpanded}
+					activeMode={activeMode}
+					toggleMode={toggleMode}
+					loginData={loginData}
+					signupData={signupData}
+					handleLoginChange={handleLoginChange}
+					handleSignupChange={handleSignupChange}
+					handleLoginSubmit={handleLoginSubmit}
+					handleSignupSubmit={handleSignupSubmit}
+				/>
 			</div>
 		</div>
 	);
