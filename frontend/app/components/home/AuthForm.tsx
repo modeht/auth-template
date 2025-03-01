@@ -8,6 +8,7 @@ import { apiErrorHandler, setAuthToken } from '../../lib/axios';
 import { useNavigate } from 'react-router';
 import { useBelow1280 } from '../../hooks/useBelow1280';
 import { useAuthValidations } from '../../hooks/useAuthValidations';
+import { useLang } from '../../hooks/useLang';
 interface AuthFormProps {
 	isExpanded: boolean;
 	activeMode: string;
@@ -70,6 +71,10 @@ export const AuthForm = ({ isExpanded, activeMode, toggleMode }: AuthFormProps) 
 			setLoginData({
 				email: '',
 				password: '',
+			});
+			setToast({
+				html: <SuccessToast />,
+				level: 'success',
 			});
 		} catch (error) {
 			const err = apiErrorHandler(error);
@@ -185,6 +190,7 @@ export const AuthForm = ({ isExpanded, activeMode, toggleMode }: AuthFormProps) 
 
 function SuccessToast() {
 	const navigate = useNavigate();
+	const { lang } = useLang();
 	const [timer, setTimer] = useState(5);
 	const interval = setInterval(() => {
 		setTimer(timer - 1);
@@ -195,7 +201,7 @@ function SuccessToast() {
 
 	useEffect(() => {
 		if (timer <= 1) {
-			navigate('/dashboard');
+			navigate(`/${lang}`);
 		}
 	}, [timer]);
 

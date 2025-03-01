@@ -5,7 +5,7 @@ import type { LangContext } from '../contexts/languageContext';
 export function useLang() {
 	const url = useParams();
 	const lang = (url.lang as SupportedLanguages) || DEFAULT_LANG;
-	const side = (lang === 'ar' ? 'left' : 'right') as LangContext['side'];
+	const side = 'right' as const;
 	const t = useLoaderData()?.t || { error: 'No translation file found' };
 
 	return {

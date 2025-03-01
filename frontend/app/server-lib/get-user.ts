@@ -4,7 +4,7 @@ import { apiErrorHandler } from '../lib/axios';
 
 export async function getUser(auth: string) {
 	try {
-		const r = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/user/me`, {
+		const r = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/auth/me`, {
 			headers: {
 				Authorization: `Bearer ${auth}`,
 			},

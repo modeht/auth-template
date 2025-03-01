@@ -1,5 +1,10 @@
 {
-	"name": "easygen",
+	"name": "easygenerator",
+	"author": {
+		"email": "modeht@gmail.com",
+		"name": "Medhat Mustafa",
+		"url": "https://github.com/modeht"
+	},
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -9,6 +14,7 @@
 		"typecheck": "react-router typegen && tsc"
 	},
 	"dependencies": {
+		"@neoconfetti/react": "^1.0.0",
 		"@radix-ui/react-slot": "^1.1.1",
 		"@radix-ui/themes": "^3.1.6",
 		"@react-router/node": "^7.1.1",

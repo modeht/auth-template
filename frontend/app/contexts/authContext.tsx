@@ -6,7 +6,7 @@ export type AuthState = {
 };
 export interface AuthContext {
 	id: number;
-	username: string;
+	name: string;
 	email: string;
 }
 
@@ -21,7 +21,6 @@ export const AuthProvider = ({
 	children: React.ReactNode;
 }) => {
 	const [auth, setAuth] = useState<AuthContext | undefined>(initialAuth);
-	// console.log('auth', auth);
 	return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
 };
 
