@@ -17,7 +17,7 @@ body {
 }
 
 input::placeholder {
-	color: #68667760;
+	color: var(--cgray-300);
 }
 
 input:-webkit-autofill,
@@ -29,7 +29,7 @@ input:-webkit-autofill:active {
 
 /*Change text in autofill textbox*/
 input:-webkit-autofill {
-	-webkit-text-fill-color: #49475a;
+	-webkit-text-fill-color: var(--cgray-600);
 	font-family: 'Poppins', sans-serif;
 }
 
@@ -60,7 +60,38 @@ input:-webkit-autofill {
 		--chart-4: 43 74% 66%;
 		--chart-5: 27 87% 67%;
 		--radius: 0.5rem;
+
+		/* Purple palette */
+		--cpurple-25: #fafaff;
+		--cpurple-50: #f4f3ff;
+		--cpurple-100: #ebe9fe;
+		--cpurple-200: #d9d6fe;
+		--cpurple-300: #bdb4fe;
+		--cpurple-400: #988bfb;
+		--cpurple-500: #7a5afb;
+		--cpurple-600: #6938ef;
+		--cpurple-700: #5925dc;
+		--cpurple-800: #4a1fb8;
+		--cpurple-900: #3e1c96;
+
+		/* Gray palette */
+		--cgray-25: #fcfcfc;
+		--cgray-50: #f6f6fb;
+		--cgray-100: #f0f0f3;
+		--cgray-200: #e2e1eb;
+		--cgray-300: #cbcad7;
+		--cgray-400: #9794aa;
+		--cgray-500: #6b6677;
+		--cgray-600: #49475a;
+		--cgray-700: #313039;
+		--cgray-800: #19181f;
+		--cgray-900: #100f14;
+
+		/* Base colors */
+		--cwhite: #ffffff;
+		--cblack: #040405a;
 	}
+
 	.dark {
 		--background: 224 71.4% 4.1%;
 		--foreground: 210 20% 98%;

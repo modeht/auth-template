@@ -9,9 +9,14 @@ interface SignupFormProps {
 		password: string;
 	};
 	toggleMode: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+	errors: {
+		name?: string;
+		email?: string;
+		password?: string;
+	};
 }
 
-export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupFormProps) => {
+export const SignupForm = ({ onSubmit, onChange, formData, toggleMode, errors }: SignupFormProps) => {
 	return (
 		<form
 			onSubmit={onSubmit}
@@ -30,6 +35,7 @@ export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupF
 				onChange={onChange}
 				autoComplete='new-name'
 				placeholder='Enter your full name'
+				error={errors?.name}
 			/>
 
 			<FormField
@@ -41,6 +47,7 @@ export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupF
 				onChange={onChange}
 				autoComplete='new-email'
 				placeholder='Enter your email'
+				error={errors?.email}
 			/>
 
 			<FormField
@@ -53,6 +60,7 @@ export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupF
 				autoComplete='new-password'
 				placeholder='Enter your password'
 				containerClassName='mb-6'
+				error={errors?.password}
 			/>
 			<div>
 				<ActionButton type='submit'>Sign Up</ActionButton>

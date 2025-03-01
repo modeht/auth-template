@@ -1,47 +1,143 @@
 import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
 import { motion } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useMainStore } from '../../store/store';
+import { api } from '../../lib/axios';
+import { apiErrorHandler, setAuthToken } from '../../lib/axios';
+import { useNavigate } from 'react-router';
+import { useBelow1280 } from '../../hooks/useBelow1280';
+import { useAuthValidations } from '../../hooks/useAuthValidations';
 interface AuthFormProps {
 	isExpanded: boolean;
 	activeMode: string;
 	toggleMode: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-	loginData: {
-		email: string;
-		password: string;
-	};
-	signupData: {
-		name: string;
-		email: string;
-		password: string;
-	};
-	handleLoginChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	handleSignupChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	handleLoginSubmit: (e: React.FormEvent) => void;
-	handleSignupSubmit: (e: React.FormEvent) => void;
 }
 
-export const AuthForm = ({
-	isExpanded,
-	activeMode,
-	toggleMode,
-	loginData,
-	signupData,
-	handleLoginChange,
-	handleSignupChange,
-	handleLoginSubmit,
-	handleSignupSubmit,
-}: AuthFormProps) => {
-	const [below1280, setBelow1280] = useState(false);
+export const AuthForm = ({ isExpanded, activeMode, toggleMode }: AuthFormProps) => {
+	const [loginData, setLoginData] = useState({
+		email: '',
+		password: '',
+	});
+
+	const [signupData, setSignupData] = useState({
+		name: '',
+		email: '',
+		password: '',
+	});
+
+	const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setLoginData((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const handleSignupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setSignupData((prev) => ({ ...prev, [name]: value }));
+	};
+
+	const setToast = useMainStore((state) => state.setToast);
+
+	const [formErrors, setFormErrors] = useState<{
+		email?: string;
+		password?: string;
+		name?: string;
+	}>({
+		email: '',
+		password: '',
+		name: '',
+	});
+
+	const { validateEmail, validatePassword, validateName } = useAuthValidations();
+
+	const handleLoginSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		const emailError = validateEmail(loginData.email);
+		const passwordError = validatePassword(loginData.password);
+
+		if (emailError || passwordError) {
+			setFormErrors((prev) => ({ ...prev, email: emailError, password: passwordError }));
+			return;
+		}
+
+		try {
+			const r = await api.post('api/v1/auth/login', {
+				email: loginData.email,
+				password: loginData.password,
+			});
+			setAuthToken(r.data.accessToken);
+			setLoginData({
+				email: '',
+				password: '',
+			});
+		} catch (error) {
+			const err = apiErrorHandler(error);
+			setToast({
+				msg: err,
+				level: 'error',
+				timeout: 7000,
+			});
+		}
+	};
+
+	const handleSignupSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		const nameError = validateName(signupData.name);
+		const emailError = validateEmail(signupData.email);
+		const passwordError = validatePassword(signupData.password);
+
+		if (nameError || emailError || passwordError) {
+			setFormErrors((prev) => ({ ...prev, name: nameError, email: emailError, password: passwordError }));
+			return;
+		}
+
+		try {
+			const r = await api.post('api/v1/auth/register', {
+				name: signupData.name,
+				email: signupData.email,
+				password: signupData.password,
+			});
+			setAuthToken(r.data.accessToken);
+			setSignupData({
+				name: '',
+				email: '',
+				password: '',
+			});
+
+			setToast({
+				html: <SuccessToast />,
+				level: 'success',
+			});
+		} catch (error) {
+			const err = apiErrorHandler(error);
+			setToast({
+				msg: err,
+				level: 'error',
+				timeout: 7000,
+			});
+		}
+	};
 
 	useEffect(() => {
-		const handleResize = () => {
-			setBelow1280(window.innerWidth <= 1280);
-		};
-		window.addEventListener('resize', handleResize);
-		handleResize();
-		return () => window.removeEventListener('resize', handleResize);
-	}, []);
+		//reset form data and errors
+		setLoginData({
+			email: '',
+			password: '',
+		});
+		setSignupData({
+			name: '',
+			email: '',
+			password: '',
+		});
+		setFormErrors({
+			email: '',
+			password: '',
+			name: '',
+		});
+	}, [activeMode]);
+
+	const below1280 = useBelow1280();
 
 	return (
 		<motion.div
@@ -71,6 +167,7 @@ export const AuthForm = ({
 						onChange={handleLoginChange}
 						onSubmit={handleLoginSubmit}
 						toggleMode={toggleMode}
+						errors={formErrors}
 					/>
 				) : (
 					<SignupForm
@@ -78,9 +175,36 @@ export const AuthForm = ({
 						onChange={handleSignupChange}
 						onSubmit={handleSignupSubmit}
 						toggleMode={toggleMode}
+						errors={formErrors}
 					/>
 				)}
 			</div>
 		</motion.div>
 	);
 };
+
+function SuccessToast() {
+	const navigate = useNavigate();
+	const [timer, setTimer] = useState(5);
+	const interval = setInterval(() => {
+		setTimer(timer - 1);
+		if (timer <= 0) {
+			clearInterval(interval);
+		}
+	}, 1000);
+
+	useEffect(() => {
+		if (timer <= 1) {
+			navigate('/dashboard');
+		}
+	}, [timer]);
+
+	return (
+		<div>
+			<p>
+				Welcome to easygenerator, you'll be redirected to the dashboard in <span id='redirect-timer'>{timer}</span>{' '}
+				seconds
+			</p>
+		</div>
+	);
+}

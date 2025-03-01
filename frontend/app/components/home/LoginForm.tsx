@@ -1,5 +1,6 @@
 import { FormField } from '../common/FormField';
 import { ActionButton } from '../common/ActionButton';
+import { Eye } from 'lucide-react';
 
 interface LoginFormProps {
 	onSubmit: (e: React.FormEvent) => void;
@@ -9,9 +10,13 @@ interface LoginFormProps {
 		password: string;
 	};
 	toggleMode: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+	errors: {
+		email?: string;
+		password?: string;
+	};
 }
 
-export const LoginForm = ({ onSubmit, onChange, formData, toggleMode }: LoginFormProps) => {
+export const LoginForm = ({ onSubmit, onChange, formData, toggleMode, errors }: LoginFormProps) => {
 	return (
 		<form
 			onSubmit={onSubmit}
@@ -27,6 +32,7 @@ export const LoginForm = ({ onSubmit, onChange, formData, toggleMode }: LoginFor
 				value={formData.email}
 				onChange={onChange}
 				autoComplete='new-email'
+				error={errors?.email}
 			/>
 
 			<FormField
@@ -38,6 +44,7 @@ export const LoginForm = ({ onSubmit, onChange, formData, toggleMode }: LoginFor
 				onChange={onChange}
 				autoComplete='new-password'
 				containerClassName='mb-6'
+				error={errors?.password}
 			/>
 
 			<div>

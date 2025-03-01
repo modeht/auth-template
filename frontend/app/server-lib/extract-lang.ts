@@ -10,12 +10,20 @@ export function extractLang(request: Request | Location) {
 		if (supportedLanguages.includes(lang)) {
 			const t = langs[lang];
 			return { lang: lang, t };
+		} else {
+			throw new Response('Page not found', {
+				status: 404,
+			});
 		}
 	} else if (request?.pathname) {
 		const lang = request.pathname.split('/')[1] as SupportedLanguages;
 		if (supportedLanguages.includes(lang)) {
 			const t = langs[lang];
 			return { lang: lang, t };
+		} else {
+			throw new Response('Page not found', {
+				status: 404,
+			});
 		}
 	}
 
