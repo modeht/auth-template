@@ -1,0 +1,18 @@
+{
+	"name": "auth-template",
+	"version": "0.1.0",
+	"description": "Auth Template",
+	"scripts": {
+		"backend:start": "cd backend && pnpm build && pnpm start",
+		"frontend:start": "cd frontend && pnpm build && pnpm start",
+		"start": "concurrently \"pnpm backend:start\" \"pnpm frontend:start\"",
+		"backend:dev": "cd backend && pnpm start:dev",
+		"frontend:dev": "cd frontend && pnpm dev",
+		"dev": "concurrently \"pnpm backend:dev\" \"pnpm frontend:dev\"",
+		"test": "cd backend && pnpm test -- auth",
+		"deps:install": "cd backend && pnpm install && cd ../frontend && pnpm install"
+	},
+	"dependencies": {
+		"concurrently": "^9.1.2"
+	}
+}
