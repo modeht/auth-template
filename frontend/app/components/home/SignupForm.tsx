@@ -17,7 +17,9 @@ export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupF
 			onSubmit={onSubmit}
 			className='w-full'
 		>
-			<h1 className='text-3xl font-medium text-start mb-6 text-cgray-900'>Create your account with us below</h1>
+			<h1 className='text-2xl md:text-3xl font-medium text-start mb-6 text-cgray-900'>
+				Create your account with us below
+			</h1>
 			<div className='mb-4'>
 				<label
 					htmlFor='name'
@@ -31,7 +33,7 @@ export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupF
 					name='name'
 					value={formData.name}
 					onChange={onChange}
-					className='w-full px-4 py-3 bg-cgray-50 text-cgray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cpurple-500'
+					className='w-full px-4 py-4 bg-cgray-50 text-cgray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cpurple-500'
 					required
 					autoComplete='new-name'
 					placeholder='Enter your full name'
@@ -50,7 +52,7 @@ export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupF
 					name='email'
 					value={formData.email}
 					onChange={onChange}
-					className='w-full px-4 py-3 bg-cgray-50 text-cgray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cpurple-500'
+					className='w-full px-4 py-4 bg-cgray-50 text-cgray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cpurple-500'
 					required
 					autoComplete='new-email'
 					placeholder='Enter your email'
@@ -70,7 +72,7 @@ export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupF
 					placeholder='Enter your password'
 					value={formData.password}
 					onChange={onChange}
-					className='w-full px-4 py-3 bg-cgray-50 text-cgray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cpurple-500'
+					className='w-full px-4 py-4 bg-cgray-50 text-cgray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cpurple-500'
 					required
 					autoComplete='new-password'
 				/>
@@ -78,11 +80,12 @@ export const SignupForm = ({ onSubmit, onChange, formData, toggleMode }: SignupF
 			<div>
 				<button
 					type='submit'
-					className='w-full bg-cpurple-600 text-white py-3 px-6 rounded-md text-lg font-medium hover:bg-cpurple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cpurple-500'
+					className='w-full bg-cpurple-600 text-white py-4 px-8 rounded-md text-lg font-medium hover:bg-cpurple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cpurple-500'
 				>
 					Sign Up
 				</button>
 			</div>
+
 			<div className='mt-6 text-center'>
 				<p className='text-gray-600'>
 					Already have an account?{' '}

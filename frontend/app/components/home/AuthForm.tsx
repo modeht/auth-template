@@ -1,7 +1,7 @@
 import { LoginForm } from './LoginForm';
 import { SignupForm } from './SignupForm';
 import { motion } from 'motion/react';
-
+import { useState, useEffect } from 'react';
 interface AuthFormProps {
 	isExpanded: boolean;
 	activeMode: string;
@@ -32,12 +32,23 @@ export const AuthForm = ({
 	handleLoginSubmit,
 	handleSignupSubmit,
 }: AuthFormProps) => {
+	const [below1280, setBelow1280] = useState(false);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setBelow1280(window.innerWidth <= 1280);
+		};
+		window.addEventListener('resize', handleResize);
+		handleResize();
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
 	return (
 		<motion.div
-			className='flex-1 flex items-center z-10'
+			className='flex-1 flex flex-col xl:flex-row h-full items-center z-10 justify-center gap-y-16 xl:gap-y-0'
 			animate={{
-				x: isExpanded ? 'calc(-1440px + 832px)' : 0,
-				justifyContent: isExpanded ? 'flex-start' : 'flex-end',
+				x: isExpanded && !below1280 ? 'calc(-1440px + 832px)' : 0,
+				...(!below1280 && { justifyContent: isExpanded ? 'flex-start' : 'flex-end' }),
 			}}
 			transition={{
 				type: 'spring',
@@ -45,6 +56,14 @@ export const AuthForm = ({
 				damping: 30,
 			}}
 		>
+			{below1280 && (
+				<div className='flex justify-center items-center'>
+					<h1 className='text-cgray-900 text-xl font-semibold'>
+						<span className='text-[#F0754D]'>easy</span>generator
+					</h1>
+				</div>
+			)}
+
 			<div className='w-full max-w-[630px]'>
 				{activeMode === 'login' ? (
 					<LoginForm
